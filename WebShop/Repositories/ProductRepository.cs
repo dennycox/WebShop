@@ -7,19 +7,24 @@ using System.Threading.Tasks;
 using WebShop.Models;
 using MySql.Data;
 using MySql.Data.MySqlClient;
-using WebShop.Repositories;
+using WebShop.Context;
 
-namespace WebShop.Data
+namespace WebShop.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        public string connStr = "server=192.168.0.15;user=dennycox;database=WebShop;password=dennycox123";
+        private readonly IWebShopContext webShopContext;
+
+        public ProductRepository(IWebShopContext webShopContext)
+        {
+            this.webShopContext = webShopContext;
+        }
 
         public List<Product> GetAllProducts()
         {
             List<Product> products = new List<Product>();
 
-            MySqlConnection conn = new MySqlConnection(connStr);
+            MySqlConnection conn = webShopContext.GetConnection();
             try
             {
                 conn.Open();
@@ -56,7 +61,7 @@ namespace WebShop.Data
 
         public Product GetProductById(int id)
         {
-            MySqlConnection conn = new MySqlConnection(connStr);
+            MySqlConnection conn = webShopContext.GetConnection();
 
             Product product = null;
             try
@@ -93,7 +98,7 @@ namespace WebShop.Data
 
         public void AddProduct(Product product)
         {
-            MySqlConnection conn = new MySqlConnection(connStr);
+            MySqlConnection conn = webShopContext.GetConnection();
             try
             {
                 conn.Open();
@@ -114,7 +119,7 @@ namespace WebShop.Data
 
         public void UpdateProduct(Product product)
         {
-            MySqlConnection conn = new MySqlConnection(connStr);
+            MySqlConnection conn = webShopContext.GetConnection();
             try
             {
                 conn.Open();
@@ -135,7 +140,7 @@ namespace WebShop.Data
 
         public void DeleteProduct(int id)
         {
-            MySqlConnection conn = new MySqlConnection(connStr);
+            MySqlConnection conn = webShopContext.GetConnection();
             try
             {
                 conn.Open();

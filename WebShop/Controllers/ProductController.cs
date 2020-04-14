@@ -4,17 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebShop.Data;
 using WebShop.Models;
+using WebShop.Repositories;
 
 namespace WebShop.Controllers
 {
     public class ProductController : Controller
     {
+        private readonly IProductRepository productRepository;
+
+        public ProductController(IProductRepository productRepository)
+        {
+            this.productRepository = productRepository;
+        }
+
         // GET: Product
         public ActionResult Index()
         {
-            ProductRepository productRepository = new ProductRepository();
             List<Product> products = productRepository.GetAllProducts();
             return View(products);
         }
@@ -22,7 +28,6 @@ namespace WebShop.Controllers
         // GET: Product/Details/5
         public ActionResult Details(int id)
         {
-            ProductRepository productRepository = new ProductRepository();
             Product product = productRepository.GetProductById(id);
             return View(product);
         }
@@ -41,7 +46,6 @@ namespace WebShop.Controllers
         {
             try
             {
-                ProductRepository productRepository = new ProductRepository();
                 productRepository.AddProduct(product);
 
                 return RedirectToAction(nameof(Index));
@@ -55,7 +59,6 @@ namespace WebShop.Controllers
         // GET: Product/Edit/5
         public ActionResult Edit(int id)
         {
-            ProductRepository productRepository = new ProductRepository();
             Product product = productRepository.GetProductById(id);
             
             return View(product);
@@ -69,7 +72,6 @@ namespace WebShop.Controllers
             try
             {
                 product.ProductID = id;
-                ProductRepository productRepository = new ProductRepository();
                 productRepository.UpdateProduct(product);
 
                 return RedirectToAction(nameof(Index));
@@ -83,7 +85,6 @@ namespace WebShop.Controllers
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
-            ProductRepository productRepository = new ProductRepository();
             Product product = productRepository.GetProductById(id);
             return View(product);
         }
@@ -95,7 +96,6 @@ namespace WebShop.Controllers
         {
             try
             {
-                ProductRepository productRepository = new ProductRepository();
                 productRepository.DeleteProduct(id);
 
                 return RedirectToAction(nameof(Index));
