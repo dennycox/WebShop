@@ -1,5 +1,5 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
+using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,10 +16,10 @@ namespace WebShop.Context
             this.configuration = config;
         }
 
-        public MySqlConnection GetConnection()
+        public SqlConnection GetConnection()
         {
             string connStr = configuration.GetConnectionString("DefaultConnection");
-            return new MySqlConnection(connStr);
+            return new SqlConnection(connStr);
         }
     }
 }

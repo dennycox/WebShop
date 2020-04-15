@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,6 @@ namespace WebShop.Context
 {
     public interface IWebShopContext
     {
-        MySqlConnection GetConnection();
+        SqlConnection GetConnection();
     }
 }
