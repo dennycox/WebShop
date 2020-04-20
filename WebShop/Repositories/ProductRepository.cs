@@ -66,8 +66,9 @@ namespace WebShop.Repositories
             {
                 conn.Open();
 
-                string sql = "SELECT id, name, description, price, image_path, category FROM product WHERE id = " + id + ";";
+                string sql = "SELECT id, name, description, price, image_path, category FROM product WHERE id = @id;";
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id", id);
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
@@ -102,9 +103,14 @@ namespace WebShop.Repositories
                 conn.Open();
 
                 string sql = "INSERT INTO product (name, description, price, image_path, category)" +
-                    "VALUES('" + product.Name + "', '" + product.Description + "', '" + product.Price + 
-                    "', '" + product.ImagePath + "', '" + product.Category + "');";
+                    "VALUES(@name, @description, @price, @imagePath, @category);";
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@name", product.Name);
+                cmd.Parameters.AddWithValue("@description", product.Description);
+                cmd.Parameters.AddWithValue("@price", product.Price);
+                cmd.Parameters.AddWithValue("@imagePath", product.ImagePath);
+                cmd.Parameters.AddWithValue("@category", product.Category);
+
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -122,10 +128,16 @@ namespace WebShop.Repositories
             {
                 conn.Open();
 
-                string sql = "UPDATE product SET name = '" + product.Name + "', description = '" + product.Description + 
-                    "', price = '" + product.Price + "', image_path = '" + product.ImagePath + "', " + 
-                    "category = '" + product.Category + "' WHERE id = "+ product.ProductID + ";";
+                string sql = "UPDATE product SET name = @name, description = @description, " +
+                    "price = @price, image_path = @imagePath, category = @category WHERE id = @productID;";
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@name", product.Name);
+                cmd.Parameters.AddWithValue("@description", product.Description);
+                cmd.Parameters.AddWithValue("@price", product.Price);
+                cmd.Parameters.AddWithValue("@imagePath", product.ImagePath);
+                cmd.Parameters.AddWithValue("@category", product.Category);
+                cmd.Parameters.AddWithValue("@productID", product.ProductID);
+
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -143,8 +155,10 @@ namespace WebShop.Repositories
             {
                 conn.Open();
 
-                string sql = "DELETE FROM product WHERE id = " + id + ";";
+                string sql = "DELETE FROM product WHERE id = @id;";
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id", id);
+
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)

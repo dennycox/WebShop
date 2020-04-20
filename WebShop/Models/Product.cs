@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -21,10 +22,11 @@ namespace WebShop.Models
         public string Description { get; set; }
         
         [DisplayName("Prijs")]
+        [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Een prijs invullen is verplicht")]
         public Decimal Price { get; set; }
 
-        [DisplayName("Afbeelding")]
+        [DisplayName("Afbeelding locatie")]
         public string ImagePath { get; set; }
 
         [DisplayName("Categorie")]
