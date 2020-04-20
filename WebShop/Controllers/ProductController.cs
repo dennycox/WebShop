@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebShop.Models;
@@ -13,9 +15,12 @@ namespace WebShop.Controllers
     {
         private readonly IProductRepository productRepository;
 
-        public ProductController(IProductRepository productRepository)
+        private IWebHostEnvironment _environment;
+
+        public ProductController(IProductRepository productRepository, IWebHostEnvironment environment)
         {
             this.productRepository = productRepository;
+            this._environment = environment;
         }
 
         // GET: Product
@@ -42,10 +47,21 @@ namespace WebShop.Controllers
         // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             try
             {
+                if (product.Image.Length > 0)
+                {
+                    var filePath = Path.Combine(_environment.WebRootPath, "storage", product.Image.FileName);
+                    product.ImagePath = product.Image.FileName;
+
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await product.Image.CopyToAsync(stream);
+                    }
+                }
+
                 productRepository.AddProduct(product);
 
                 return RedirectToAction(nameof(Index));
@@ -60,7 +76,7 @@ namespace WebShop.Controllers
         public ActionResult Edit(int id)
         {
             Product product = productRepository.GetProductById(id);
-            
+
             return View(product);
         }
 

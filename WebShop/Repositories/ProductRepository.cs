@@ -108,7 +108,7 @@ namespace WebShop.Repositories
                 cmd.Parameters.AddWithValue("@name", product.Name);
                 cmd.Parameters.AddWithValue("@description", product.Description);
                 cmd.Parameters.AddWithValue("@price", product.Price);
-                cmd.Parameters.AddWithValue("@imagePath", product.ImagePath);
+                cmd.Parameters.AddWithValue("@imagePath", product.ImagePath ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@category", product.Category);
 
                 cmd.ExecuteNonQuery();
