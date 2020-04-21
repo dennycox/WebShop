@@ -26,7 +26,7 @@ namespace WebShop.Models
         [Required(ErrorMessage = "Een prijs invullen is verplicht")]
         public decimal Price { get; set; }
 
-        [DisplayName("Afbeelding locatie")]
+        [DisplayName("Afbeelding")]
         public string ImagePath { get; set; }
 
         [Display(Name = "Foto")]
