@@ -8,32 +8,32 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebShop.Models;
 using WebShop.Repositories;
+using WebShop.Utilities;
 
 namespace WebShop.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductRepository productRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IStorage _storage;
 
-        private IWebHostEnvironment _environment;
-
-        public ProductController(IProductRepository productRepository, IWebHostEnvironment environment)
+        public ProductController(IProductRepository productRepository, IStorage storage)
         {
-            this.productRepository = productRepository;
-            this._environment = environment;
+            this._productRepository = productRepository;
+            this._storage = storage;
         }
 
         // GET: Product
         public ActionResult Index()
         {
-            List<Product> products = productRepository.GetAllProducts();
+            List<Product> products = _productRepository.GetAllProducts();
             return View(products);
         }
 
         // GET: Product/Details/5
         public ActionResult Details(int id)
         {
-            Product product = productRepository.GetProductById(id);
+            Product product = _productRepository.GetProductById(id);
             return View(product);
         }
 
@@ -47,22 +47,13 @@ namespace WebShop.Controllers
         // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public ActionResult Create(Product product)
         {
             try
             {
-                if (product.Image.Length > 0)
-                {
-                    var filePath = Path.Combine(_environment.WebRootPath, "storage", product.Image.FileName);
-                    product.ImagePath = product.Image.FileName;
+                product.ImagePath = _storage.StoreFile(product.Image);
 
-                    using (var stream = System.IO.File.Create(filePath))
-                    {
-                        await product.Image.CopyToAsync(stream);
-                    }
-                }
-
-                productRepository.AddProduct(product);
+                _productRepository.AddProduct(product);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -75,7 +66,7 @@ namespace WebShop.Controllers
         // GET: Product/Edit/5
         public ActionResult Edit(int id)
         {
-            Product product = productRepository.GetProductById(id);
+            Product product = _productRepository.GetProductById(id);
 
             return View(product);
         }
@@ -87,8 +78,13 @@ namespace WebShop.Controllers
         {
             try
             {
+                var oldProduct = _productRepository.GetProductById(id);
+                _storage.RemoveFile(oldProduct.ImagePath);
+                
+                product.ImagePath = _storage.StoreFile(product.Image);
+
                 product.ProductID = id;
-                productRepository.UpdateProduct(product);
+                _productRepository.UpdateProduct(product);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -101,7 +97,7 @@ namespace WebShop.Controllers
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
-            Product product = productRepository.GetProductById(id);
+            Product product = _productRepository.GetProductById(id);
             return View(product);
         }
 
@@ -112,7 +108,10 @@ namespace WebShop.Controllers
         {
             try
             {
-                productRepository.DeleteProduct(id);
+                var oldProduct = _productRepository.GetProductById(id);
+                _storage.RemoveFile(oldProduct.ImagePath);
+
+                _productRepository.DeleteProduct(id);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -128,7 +127,7 @@ namespace WebShop.Controllers
 
             if (!String.IsNullOrEmpty(productName))
             {
-                products = productRepository.SearchProduct(productName);
+                products = _productRepository.SearchProduct(productName);
             }
             else
             {

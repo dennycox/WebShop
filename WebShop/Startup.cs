@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebShop.Context;
 using WebShop.Repositories;
+using WebShop.Utilities;
 
 namespace WebShop
 {
@@ -28,6 +29,7 @@ namespace WebShop
             services.AddControllersWithViews();
             services.AddScoped<IWebShopContext, WebShopContext>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IStorage, Storage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
