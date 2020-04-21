@@ -121,5 +121,21 @@ namespace WebShop.Controllers
                 return View();
             }
         }
+
+        public ActionResult Search(string productName)
+        {
+            List<Product> products = new List<Product>();
+
+            if (!String.IsNullOrEmpty(productName))
+            {
+                products = productRepository.SearchProduct(productName);
+            }
+            else
+            {
+                return View();
+            }
+
+            return View(products);
+        }
     }
 }

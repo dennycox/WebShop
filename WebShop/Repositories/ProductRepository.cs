@@ -167,6 +167,46 @@ namespace WebShop.Repositories
             }
 
             conn.Close();
-        }        
+        }
+
+        public List<Product> SearchProduct(string productName)
+        {
+            SqlConnection conn = webShopContext.GetConnection();
+            List<Product> products = new List<Product>();
+
+            try
+            {
+                conn.Open();
+
+                string sql = "SELECT id, name, description, price, image_path, category FROM product WHERE name LIKE '%' + @name + '%';";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@name", productName);
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    products.Add(
+                        new Product()
+                        {
+                            ProductID = rdr.GetInt32(0),
+                            Name = rdr.GetString(1),
+                            Description = rdr.GetString(2),
+                            Price = rdr.GetDecimal(3),
+                            ImagePath = !rdr.IsDBNull(4) ? rdr.GetString(4) : null,
+                            Category = (Category)Enum.Parse(typeof(Category), rdr.GetString(5)),
+                        }
+                    );
+                }
+                rdr.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            conn.Close();
+
+            return products;
+        }
     }
 }
