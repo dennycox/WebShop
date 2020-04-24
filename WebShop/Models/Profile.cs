@@ -14,7 +14,7 @@ namespace WebShop.Models
         public int ID { get; set; }
 
         [DisplayName("E-mailadres")]
-        [Required(ErrorMessage = "Een e-mail invullen is verplicht")]
+        [Required(ErrorMessage = "Een e-mailadres invullen is verplicht")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
@@ -30,9 +30,11 @@ namespace WebShop.Models
         public string LastName { get; set; }
 
         [DisplayName("Postcode")]
+        [Required(ErrorMessage = "Een postcode invullen is verplicht")]
         public string ZipCode { get; set; }
 
         [DisplayName("Huisnummer")]
+        [Required(ErrorMessage = "Een huisnummer invullen is verplicht")]
         public string HouseNumber { get; set; }
 
         [DisplayName("Huisnummer toevoeging")]

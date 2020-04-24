@@ -14,6 +14,7 @@ namespace WebShop.Models
         [Key]
         public int ProfileID { get; set; }
 
+        [Required]
         public int Amount { get; set; }
     }
 }
