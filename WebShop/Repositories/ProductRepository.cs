@@ -169,7 +169,7 @@ namespace WebShop.Repositories
             conn.Close();
         }
 
-        public List<Product> SearchProduct(string productName)
+        public List<Product> SearchProduct(string searchName)
         {
             SqlConnection conn = webShopContext.GetConnection();
             List<Product> products = new List<Product>();
@@ -178,9 +178,10 @@ namespace WebShop.Repositories
             {
                 conn.Open();
 
-                string sql = "SELECT id, name, description, price, image_path, category FROM product WHERE name LIKE '%' + @name + '%';";
+                string sql = "SELECT id, name, description, price, image_path, category FROM product WHERE name LIKE '%' + @name + '%' OR description LIKE '%' + @description + '%';";
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@name", productName);
+                cmd.Parameters.AddWithValue("@name", searchName);
+                cmd.Parameters.AddWithValue("@description", searchName);
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
