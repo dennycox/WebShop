@@ -14,5 +14,6 @@ namespace WebShop.Repositories
         public void UpdateProduct(Product product);
         public void DeleteProduct(int id);
         public List<Product> SearchProduct(string productName);
+        List<Product> GetProductsByCategory(string categoryName);
     }
 }

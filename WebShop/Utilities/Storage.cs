@@ -19,15 +19,21 @@ namespace WebShop.Utilities
 
         public string StoreFile(IFormFile file)
         {
-            if (file.Length > 0)
+            if (file != null)
             {
-                using (var stream = File.Create(GetStoragePath(file.FileName)))
+                if (file.Length > 0)
                 {
-                    file.CopyTo(stream);
+                    using (var stream = File.Create(GetStoragePath(file.FileName)))
+                    {
+                        file.CopyTo(stream);
+                    }
                 }
+                return file.FileName;
             }
-
-            return file.FileName;
+            else
+            {
+                throw new Exception("File is null");
+            }
         }
 
         public void RemoveFile(string fileName)

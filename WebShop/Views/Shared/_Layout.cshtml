@@ -17,7 +17,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <form class="form-inline my-2 my-lg-0" asp-area="" asp-action="Search" asp-controller="Product">
+                    <form class="form-inline my-2 my-lg-0" asp-area="" asp-controller="Product" asp-action="Search">
                         <input class="form-control mr-sm-2" type="search" placeholder="Zoek een product" name="productName" aria-label="Search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Zoek</button>
                     </form>
@@ -30,10 +30,13 @@
                                 Categorieën
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <form asp-area="" asp-action="Search" asp-controller="Product">
-                                    <input type="hidden" name="productName" value="yoda" />
-                                    <button class="dropdown-item" type="submit">Yoda</button>
-                                </form>
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    <form asp-area="" asp-controller="Product" asp-action="Index">
+                                        <input type="hidden" name="categoryName" value="@category" />
+                                        <button class="dropdown-item" type="submit">@category</button>
+                                    </form>
+                                }
                             </div>
                         </li>
                     </ul>

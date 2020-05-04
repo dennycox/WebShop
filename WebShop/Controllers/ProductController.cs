@@ -12,7 +12,7 @@ using WebShop.Utilities;
 
 namespace WebShop.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductRepository _productRepository;
         private readonly IStorage _storage;
@@ -24,9 +24,19 @@ namespace WebShop.Controllers
         }
 
         // GET: Product
-        public ActionResult Index()
+        public ActionResult Index(string categoryName = null)
         {
-            List<Product> products = _productRepository.GetAllProducts();
+            List<Product> products = null;
+
+            if (!String.IsNullOrEmpty(categoryName))
+            {
+                products = _productRepository.GetProductsByCategory(categoryName);
+            }
+            else
+            {
+                products = _productRepository.GetAllProducts();
+            }
+
             return View(products);
         }
 
@@ -47,12 +57,14 @@ namespace WebShop.Controllers
         // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product)
+        public ActionResult Create(Product product, IFormFile image)
         {
             try
             {
-                product.ImagePath = _storage.StoreFile(product.Image);
-
+                if (image != null)
+                {
+                    product.ImagePath = _storage.StoreFile(image);
+                }
                 _productRepository.AddProduct(product);
 
                 return RedirectToAction(nameof(Index));
@@ -74,15 +86,23 @@ namespace WebShop.Controllers
         // POST: Product/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Product product)
+        public ActionResult Edit(int id, Product product, IFormFile image)
         {
             try
             {
                 var oldProduct = _productRepository.GetProductById(id);
-                _storage.RemoveFile(oldProduct.ImagePath);
-                
-                product.ImagePath = _storage.StoreFile(product.Image);
 
+                if (image != null)
+                {
+                    if (product.ImagePath != null)
+                    {
+                        _storage.RemoveFile(oldProduct.ImagePath);
+                    }
+                    product.ImagePath = _storage.StoreFile(image);
+                } else
+                {
+                    product.ImagePath = oldProduct.ImagePath;
+                }
                 product.ProductID = id;
                 _productRepository.UpdateProduct(product);
 

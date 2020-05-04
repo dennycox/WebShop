@@ -134,7 +134,7 @@ namespace WebShop.Repositories
                 cmd.Parameters.AddWithValue("@name", product.Name);
                 cmd.Parameters.AddWithValue("@description", product.Description);
                 cmd.Parameters.AddWithValue("@price", product.Price);
-                cmd.Parameters.AddWithValue("@imagePath", product.ImagePath);
+                cmd.Parameters.AddWithValue("@imagePath", product.ImagePath ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@category", product.Category);
                 cmd.Parameters.AddWithValue("@productID", product.ProductID);
 
@@ -182,6 +182,47 @@ namespace WebShop.Repositories
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@name", searchName);
                 cmd.Parameters.AddWithValue("@description", searchName);
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    products.Add(
+                        new Product()
+                        {
+                            ProductID = rdr.GetInt32(0),
+                            Name = rdr.GetString(1),
+                            Description = rdr.GetString(2),
+                            Price = rdr.GetDecimal(3),
+                            ImagePath = !rdr.IsDBNull(4) ? rdr.GetString(4) : null,
+                            Category = (Category)Enum.Parse(typeof(Category), rdr.GetString(5)),
+                        }
+                    );
+                }
+                rdr.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            conn.Close();
+
+            return products;
+        }
+
+        public List<Product> GetProductsByCategory(string categoryName)
+        {
+            SqlConnection conn = webShopContext.GetConnection();
+            List<Product> products = new List<Product>();
+
+            try
+            {
+                conn.Open();
+
+                string sql = "SELECT id, name, description, price, image_path, category FROM product WHERE category = @category;";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                int categoryId = (int)Enum.Parse(typeof(Category), categoryName);
+                cmd.Parameters.AddWithValue("@category", categoryId);
                 SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())

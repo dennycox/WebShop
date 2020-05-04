@@ -29,9 +29,6 @@ namespace WebShop.Models
         [DisplayName("Afbeelding")]
         public string ImagePath { get; set; }
 
-        [Display(Name = "Foto")]
-        public IFormFile Image { get; set; }
-
         [DisplayName("Categorie")]
         [Required(ErrorMessage = "Een categorie kiezen is verplicht")]
         public Category Category { get; set; }
