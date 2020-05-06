@@ -7,6 +7,6 @@ namespace WebShop.Models
 {
     public enum ProfileType
     {
-        Admin, User
+        Administrator, Gebruiker
     }
 }

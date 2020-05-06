@@ -35,7 +35,7 @@ namespace WebShop.Models
 
         [DisplayName("Huisnummer")]
         [Required(ErrorMessage = "Een huisnummer invullen is verplicht")]
-        public string HouseNumber { get; set; }
+        public int HouseNumber { get; set; }
 
         [DisplayName("Huisnummer toevoeging")]
         public string HouseNumberAddition { get; set; }
@@ -50,6 +50,7 @@ namespace WebShop.Models
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
+        [DisplayName("Profiel type")]
         [Required]
         public ProfileType ProfileType { get; set; }
     }

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Denny's WebShop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -19,7 +20,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <form class="form-inline my-2 my-lg-0" asp-area="" asp-controller="Product" asp-action="Search">
                         <input class="form-control mr-sm-2" type="search" placeholder="Zoek een product" name="productName" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Zoek</button>
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
                     </form>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
@@ -39,8 +40,19 @@
                                 }
                             </div>
                         </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary" asp-area="" asp-controller="ShoppingCart" asp-action="Index">
+                                <i class="fa fa-shopping-cart"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary" asp-area="" asp-controller="Profile" asp-action="Details" asp-route-id="1">
+                                <i class="fa fa-user"></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
+
             </div>
         </nav>
     </header>
