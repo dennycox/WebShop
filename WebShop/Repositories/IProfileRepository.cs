@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebShop.Models;
+using WebShop.ViewModels;
 
 namespace WebShop.Repositories
 {
     public interface IProfileRepository
     {
-        public Profile GetProfileById(int id);
-        public void UpdateProfile(Profile profile);
+        public ProfileViewModel GetProfileById(int id);
     }
 }

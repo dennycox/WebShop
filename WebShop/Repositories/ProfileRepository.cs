@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebShop.Context;
 using WebShop.Models;
+using WebShop.ViewModels;
 
 namespace WebShop.Repositories
 {
@@ -17,11 +18,11 @@ namespace WebShop.Repositories
             this.webShopContext = webShopContext;
         }
 
-        public Profile GetProfileById(int id)
+        public ProfileViewModel GetProfileById(int id)
         {
             SqlConnection conn = webShopContext.GetConnection();
 
-            Profile profile = null;
+            ProfileViewModel profileViewModel = null;
             try
             {
                 conn.Open();
@@ -33,7 +34,7 @@ namespace WebShop.Repositories
 
                 while (rdr.Read())
                 {
-                    profile = new Profile()
+                    profileViewModel = new ProfileViewModel()
                     {
                         ID = rdr.GetInt32(0),
                         Email = rdr.GetString(1),
@@ -57,37 +58,7 @@ namespace WebShop.Repositories
 
             conn.Close();
 
-            return profile;
-        }
-
-        public void UpdateProfile(Profile profile)
-        {
-            SqlConnection conn = webShopContext.GetConnection();
-            try
-            {
-                conn.Open();
-
-                string sql = "UPDATE profile SET email = @email, first_name = @firstName, insertion = @insertion, last_name = @lastName, zip_code = @zipCode, house_number = @houseNumber, house_number_addition = @houseNumberAddition, password = @password, profile_type = @profileType WHERE id = @profileID;";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@profileID", profile.ID);
-                cmd.Parameters.AddWithValue("@email", profile.Email);
-                cmd.Parameters.AddWithValue("@firstName", profile.FirstName);
-                cmd.Parameters.AddWithValue("@insertion", profile.Insertion ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@lastName", profile.LastName);
-                cmd.Parameters.AddWithValue("@zipCode", profile.ZipCode);
-                cmd.Parameters.AddWithValue("@houseNumber", profile.HouseNumber);
-                cmd.Parameters.AddWithValue("@houseNumberAddition", profile.HouseNumberAddition ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@password", profile.Password);
-                cmd.Parameters.AddWithValue("@profileType", profile.ProfileType);
-
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-            conn.Close();
+            return profileViewModel;
         }
     }
 }

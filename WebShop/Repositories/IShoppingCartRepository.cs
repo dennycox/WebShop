@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebShop.Models;
+using WebShop.ViewModels;
 
 namespace WebShop.Repositories
 {
     public interface IShoppingCartRepository
     {
-        public List<Product> GetShoppingCartProductsById(int id);
+        public List<ProductViewModel> GetShoppingCartProductsById(int id);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebShop.Models;
+using WebShop.ViewModels;
 
 namespace WebShop.Controllers
 {
@@ -11,7 +11,7 @@ namespace WebShop.Controllers
     {
         public IActionResult Index()
         {
-            ShoppingCart shoppingCart = new ShoppingCart();
+            ShoppingCartViewModel shoppingCartViewModel = new ShoppingCartViewModel();
             return View();
         }
     }

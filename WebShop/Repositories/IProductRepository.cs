@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebShop.Models;
+using WebShop.ViewModels;
 
 namespace WebShop.Repositories
 {
     public interface IProductRepository
     {
-        public List<Product> GetAllProducts();
-        public Product GetProductById(int id);
-        public void AddProduct(Product product);
-        public void UpdateProduct(Product product);
+        public List<ProductViewModel> GetAllProducts();
+        public ProductViewModel GetProductById(int id);
+        public void AddProduct(ProductViewModel product);
+        public void UpdateProduct(ProductViewModel product);
         public void DeleteProduct(int id);
-        public List<Product> SearchProduct(string productName);
-        List<Product> GetProductsByCategory(string categoryName);
+        public List<ProductViewModel> SearchProduct(string productName);
+        List<ProductViewModel> GetProductsByCategory(string categoryName);
     }
 }

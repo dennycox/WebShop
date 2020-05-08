@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WebShop.Models;
 using WebShop.Repositories;
 using WebShop.Utilities;
+using WebShop.ViewModels;
 
 namespace WebShop.Controllers
 {
@@ -20,36 +20,8 @@ namespace WebShop.Controllers
 
         public IActionResult Details(int id)
         {
-            Profile profile = _profileRepository.GetProfileById(id);
-            return View(profile);
-        }
-
-        // GET: Profile/Edit/5
-        public ActionResult Edit(int id)
-        {
-            Profile profile = _profileRepository.GetProfileById(id);
-
-            return View(profile);
-        }
-
-        // POST: Profile/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Profile profile)
-        {
-            try
-            {
-                var oldProfile = _profileRepository.GetProfileById(id);
-
-                profile.ID = id;
-                _profileRepository.UpdateProfile(profile);
-
-                return RedirectToAction(nameof(Details));
-            }
-            catch
-            {
-                return View();
-            }
+            ProfileViewModel profileViewModel = _profileRepository.GetProfileById(id);
+            return View(profileViewModel);
         }
     }
 }

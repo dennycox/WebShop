@@ -4,16 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebShop.Models
+namespace WebShop.ViewModels
 {
-    public class ShoppingCart
+    public class ShoppingCartViewModel
     {
-        [Key]
         public int ProductID { get; set; }
 
-        [Key]
         public int ProfileID { get; set; }
 
+        [Required]
         public int Amount { get; set; }
     }
 }

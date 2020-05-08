@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebShop.Models;
 using WebShop.Repositories;
 using WebShop.Utilities;
+using WebShop.ViewModels;
 
 namespace WebShop.Controllers
 {
@@ -26,46 +26,46 @@ namespace WebShop.Controllers
         // GET: Product
         public ActionResult Index(string categoryName = null)
         {
-            List<Product> products = null;
+            List<ProductViewModel> productViewModels = null;
 
             if (!String.IsNullOrEmpty(categoryName))
             {
-                products = _productRepository.GetProductsByCategory(categoryName);
+                productViewModels = _productRepository.GetProductsByCategory(categoryName);
             }
             else
             {
-                products = _productRepository.GetAllProducts();
+                productViewModels = _productRepository.GetAllProducts();
             }
 
-            return View(products);
+            return View(productViewModels);
         }
 
         // GET: Product/Details/5
         public ActionResult Details(int id)
         {
-            Product product = _productRepository.GetProductById(id);
-            return View(product);
+            ProductViewModel productViewModel = _productRepository.GetProductById(id);
+            return View(productViewModel);
         }
 
         // GET: Product/Create
         public ActionResult Create()
         {
-            Product product = new Product();
-            return View(product);
+            ProductViewModel productViewModel = new ProductViewModel();
+            return View(productViewModel);
         }
 
         // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product, IFormFile image)
+        public ActionResult Create(ProductViewModel productViewModel, IFormFile image)
         {
             try
             {
                 if (image != null)
                 {
-                    product.ImagePath = _storage.StoreFile(image);
+                    productViewModel.ImagePath = _storage.StoreFile(image);
                 }
-                _productRepository.AddProduct(product);
+                _productRepository.AddProduct(productViewModel);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -78,15 +78,15 @@ namespace WebShop.Controllers
         // GET: Product/Edit/5
         public ActionResult Edit(int id)
         {
-            Product product = _productRepository.GetProductById(id);
+            ProductViewModel productViewModel = _productRepository.GetProductById(id);
 
-            return View(product);
+            return View(productViewModel);
         }
 
         // POST: Product/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Product product, IFormFile image)
+        public ActionResult Edit(int id, ProductViewModel productViewModel, IFormFile image)
         {
             try
             {
@@ -94,17 +94,17 @@ namespace WebShop.Controllers
 
                 if (image != null)
                 {
-                    if (product.ImagePath != null)
+                    if (productViewModel.ImagePath != null)
                     {
                         _storage.RemoveFile(oldProduct.ImagePath);
                     }
-                    product.ImagePath = _storage.StoreFile(image);
+                    productViewModel.ImagePath = _storage.StoreFile(image);
                 } else
                 {
-                    product.ImagePath = oldProduct.ImagePath;
+                    productViewModel.ImagePath = oldProduct.ImagePath;
                 }
-                product.ProductID = id;
-                _productRepository.UpdateProduct(product);
+                productViewModel.ProductID = id;
+                _productRepository.UpdateProduct(productViewModel);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -117,8 +117,8 @@ namespace WebShop.Controllers
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
-            Product product = _productRepository.GetProductById(id);
-            return View(product);
+            ProductViewModel productViewModel = _productRepository.GetProductById(id);
+            return View(productViewModel);
         }
 
         // POST: Product/Delete/5
@@ -143,18 +143,18 @@ namespace WebShop.Controllers
 
         public ActionResult Search(string productName)
         {
-            List<Product> products = new List<Product>();
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
 
             if (!String.IsNullOrEmpty(productName))
             {
-                products = _productRepository.SearchProduct(productName);
+                productViewModels = _productRepository.SearchProduct(productName);
             }
             else
             {
                 return View();
             }
 
-            return View(products);
+            return View(productViewModels);
         }
     }
 }

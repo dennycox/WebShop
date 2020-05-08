@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebShop.Models;
 using WebShop.Context;
+using WebShop.ViewModels;
 
 namespace WebShop.Repositories
 {
@@ -18,9 +19,9 @@ namespace WebShop.Repositories
             this.webShopContext = webShopContext;
         }
 
-        public List<Product> GetAllProducts()
+        public List<ProductViewModel> GetAllProducts()
         {
-            List<Product> products = new List<Product>();
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
 
             SqlConnection conn = webShopContext.GetConnection();
             try
@@ -33,8 +34,8 @@ namespace WebShop.Repositories
 
                 while (rdr.Read())
                 {
-                    products.Add(
-                        new Product()
+                    productViewModels.Add(
+                        new ProductViewModel()
                         {
                             ProductID = rdr.GetInt32(0),
                             Name = rdr.GetString(1),
@@ -54,14 +55,14 @@ namespace WebShop.Repositories
 
             conn.Close();
 
-            return products;
+            return productViewModels;
         }
 
-        public Product GetProductById(int id)
+        public ProductViewModel GetProductById(int id)
         {
             SqlConnection conn = webShopContext.GetConnection();
 
-            Product product = null;
+            ProductViewModel productViewModel = null;
             try
             {
                 conn.Open();
@@ -73,7 +74,7 @@ namespace WebShop.Repositories
 
                 while (rdr.Read())
                 {
-                    product = new Product()
+                    productViewModel = new ProductViewModel()
                     {
                         ProductID = rdr.GetInt32(0),
                         Name = rdr.GetString(1),
@@ -92,10 +93,10 @@ namespace WebShop.Repositories
 
             conn.Close();
 
-            return product;
+            return productViewModel;
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(ProductViewModel productViewModel)
         {
             SqlConnection conn = webShopContext.GetConnection();
             try
@@ -105,11 +106,11 @@ namespace WebShop.Repositories
                 string sql = "INSERT INTO product (name, description, price, image_path, category)" +
                     "VALUES(@name, @description, @price, @imagePath, @category);";
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@name", product.Name);
-                cmd.Parameters.AddWithValue("@description", product.Description);
-                cmd.Parameters.AddWithValue("@price", product.Price);
-                cmd.Parameters.AddWithValue("@imagePath", product.ImagePath ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@category", product.Category);
+                cmd.Parameters.AddWithValue("@name", productViewModel.Name);
+                cmd.Parameters.AddWithValue("@description", productViewModel.Description);
+                cmd.Parameters.AddWithValue("@price", productViewModel.Price);
+                cmd.Parameters.AddWithValue("@imagePath", productViewModel.ImagePath ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@category", productViewModel.Category);
 
                 cmd.ExecuteNonQuery();
             }
@@ -121,7 +122,7 @@ namespace WebShop.Repositories
             conn.Close();
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateProduct(ProductViewModel productViewModel)
         {
             SqlConnection conn = webShopContext.GetConnection();
             try
@@ -131,12 +132,12 @@ namespace WebShop.Repositories
                 string sql = "UPDATE product SET name = @name, description = @description, " +
                     "price = @price, image_path = @imagePath, category = @category WHERE id = @productID;";
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@name", product.Name);
-                cmd.Parameters.AddWithValue("@description", product.Description);
-                cmd.Parameters.AddWithValue("@price", product.Price);
-                cmd.Parameters.AddWithValue("@imagePath", product.ImagePath ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@category", product.Category);
-                cmd.Parameters.AddWithValue("@productID", product.ProductID);
+                cmd.Parameters.AddWithValue("@name", productViewModel.Name);
+                cmd.Parameters.AddWithValue("@description", productViewModel.Description);
+                cmd.Parameters.AddWithValue("@price", productViewModel.Price);
+                cmd.Parameters.AddWithValue("@imagePath", productViewModel.ImagePath ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@category", productViewModel.Category);
+                cmd.Parameters.AddWithValue("@productID", productViewModel.ProductID);
 
                 cmd.ExecuteNonQuery();
             }
@@ -169,10 +170,10 @@ namespace WebShop.Repositories
             conn.Close();
         }
 
-        public List<Product> SearchProduct(string searchName)
+        public List<ProductViewModel> SearchProduct(string searchName)
         {
             SqlConnection conn = webShopContext.GetConnection();
-            List<Product> products = new List<Product>();
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
 
             try
             {
@@ -186,8 +187,8 @@ namespace WebShop.Repositories
 
                 while (rdr.Read())
                 {
-                    products.Add(
-                        new Product()
+                    productViewModels.Add(
+                        new ProductViewModel()
                         {
                             ProductID = rdr.GetInt32(0),
                             Name = rdr.GetString(1),
@@ -207,13 +208,13 @@ namespace WebShop.Repositories
 
             conn.Close();
 
-            return products;
+            return productViewModels;
         }
 
-        public List<Product> GetProductsByCategory(string categoryName)
+        public List<ProductViewModel> GetProductsByCategory(string categoryName)
         {
             SqlConnection conn = webShopContext.GetConnection();
-            List<Product> products = new List<Product>();
+            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
 
             try
             {
@@ -227,8 +228,8 @@ namespace WebShop.Repositories
 
                 while (rdr.Read())
                 {
-                    products.Add(
-                        new Product()
+                    productViewModels.Add(
+                        new ProductViewModel()
                         {
                             ProductID = rdr.GetInt32(0),
                             Name = rdr.GetString(1),
@@ -248,7 +249,7 @@ namespace WebShop.Repositories
 
             conn.Close();
 
-            return products;
+            return productViewModels;
         }
     }
 }
