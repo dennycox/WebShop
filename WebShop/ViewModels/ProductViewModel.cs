@@ -27,9 +27,5 @@ namespace WebShop.ViewModels
 
         [DisplayName("Afbeelding")]
         public string ImagePath { get; set; }
-
-        [DisplayName("Categorie")]
-        [Required(ErrorMessage = "Een categorie kiezen is verplicht")]
-        public Category Category { get; set; }
     }
 }

@@ -9,6 +9,12 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LogicFactory\LogicFactory.csproj" />
+    <ProjectReference Include="..\LogicInterfaces\LogicInterfaces.csproj" />
+    <ProjectReference Include="..\Logic\Logic.csproj" />
+  </ItemGroup>
+
 
 
 </Project>

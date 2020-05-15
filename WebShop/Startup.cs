@@ -29,8 +29,6 @@ namespace WebShop
             services.AddControllersWithViews();
             services.AddScoped<IWebShopContext, WebShopContext>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProfileRepository, ProfileRepository>();
-            services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped<IStorage, Storage>();
         }
 

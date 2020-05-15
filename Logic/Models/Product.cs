@@ -1,16 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LogicInterfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebShop.Models
 {
-    public class Product
+    public class Product : IProduct
     {
-        [Key]
         public int ProductID { get; set; }
         
         public string Name { get; set; }
@@ -20,5 +18,7 @@ namespace WebShop.Models
         public decimal Price { get; set; }
 
         public string ImagePath { get; set; }
+
+        // Methodes toevoegen
     }
 }

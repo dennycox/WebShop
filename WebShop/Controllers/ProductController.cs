@@ -12,7 +12,7 @@ using WebShop.ViewModels;
 
 namespace WebShop.Controllers
 {
-    public class ProductController : BaseController
+    public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
         private readonly IStorage _storage;
@@ -28,14 +28,7 @@ namespace WebShop.Controllers
         {
             List<ProductViewModel> productViewModels = null;
 
-            if (!String.IsNullOrEmpty(categoryName))
-            {
-                productViewModels = _productRepository.GetProductsByCategory(categoryName);
-            }
-            else
-            {
-                productViewModels = _productRepository.GetAllProducts();
-            }
+            productViewModels = _productRepository.GetAllProducts();
 
             return View(productViewModels);
         }
