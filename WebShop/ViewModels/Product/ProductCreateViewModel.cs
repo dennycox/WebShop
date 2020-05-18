@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -6,12 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebShop.Models;
 
-namespace WebShop.ViewModels
+namespace WebShop.ViewModels.Product
 {
-    public class ProductViewModel
+    public class ProductCreateViewModel
     {
-        public int ProductID { get; set; }
-
         [DisplayName("Naam")]
         [Required(ErrorMessage = "Een naam invullen is verplicht")]
         public string Name { get; set; }
@@ -25,7 +24,6 @@ namespace WebShop.ViewModels
         [Required(ErrorMessage = "Een prijs invullen is verplicht")]
         public decimal Price { get; set; }
 
-        [DisplayName("Afbeelding")]
-        public string ImagePath { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

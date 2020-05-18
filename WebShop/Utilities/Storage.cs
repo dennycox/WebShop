@@ -38,7 +38,10 @@ namespace WebShop.Utilities
 
         public void RemoveFile(string fileName)
         {
-            File.Delete(GetStoragePath(fileName));
+            if (fileName != null)
+            {
+                File.Delete(GetStoragePath(fileName));
+            }
         }
 
         private string GetStoragePath(string fileName)

@@ -2,14 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Data;
+using Data.Repositories;
+using DataInterfaces.Data;
+using DataInterfaces.Repositories;
+using Logic;
+using LogicInterfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebShop.Context;
-using WebShop.Repositories;
 using WebShop.Utilities;
 
 namespace WebShop
@@ -29,6 +33,7 @@ namespace WebShop
             services.AddControllersWithViews();
             services.AddScoped<IWebShopContext, WebShopContext>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductCollection, ProductCollection>();
             services.AddScoped<IStorage, Storage>();
         }
 

@@ -1,13 +1,14 @@
-﻿using LogicInterfaces;
+﻿using DataInterfaces;
+using DataInterfaces.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebShop.Models
+namespace Data.Models
 {
-    public class Product : IProduct
+    public class ProductDto : IProductDto
     {
         public int ProductID { get; set; }
         
@@ -18,7 +19,5 @@ namespace WebShop.Models
         public decimal Price { get; set; }
 
         public string ImagePath { get; set; }
-
-        // Methodes toevoegen
     }
 }

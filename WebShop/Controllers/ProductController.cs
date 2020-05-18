@@ -3,62 +3,79 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Logic;
+using LogicInterfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebShop.Repositories;
+using Microsoft.VisualBasic;
 using WebShop.Utilities;
 using WebShop.ViewModels;
+using WebShop.ViewModels.Product;
 
 namespace WebShop.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductCollection _productCollection;
         private readonly IStorage _storage;
 
-        public ProductController(IProductRepository productRepository, IStorage storage)
+        public ProductController(IProductCollection productCollection, IStorage storage)
         {
-            this._productRepository = productRepository;
+            this._productCollection = productCollection;
             this._storage = storage;
         }
 
         // GET: Product
-        public ActionResult Index(string categoryName = null)
+        public ActionResult Index()
         {
-            List<ProductViewModel> productViewModels = null;
+            List<IProduct> products = _productCollection.GetAllProducts();
+            ProductIndexViewModel productIndexViewModel = new ProductIndexViewModel
+            {
+                Products = products
+            };
 
-            productViewModels = _productRepository.GetAllProducts();
-
-            return View(productViewModels);
+            return View(productIndexViewModel);
         }
 
         // GET: Product/Details/5
         public ActionResult Details(int id)
         {
-            ProductViewModel productViewModel = _productRepository.GetProductById(id);
+            IProduct product = _productCollection.GetProductById(id);
+            ProductDetailsViewModel productViewModel = new ProductDetailsViewModel()
+            {
+                Product = product
+            };
+
             return View(productViewModel);
         }
 
         // GET: Product/Create
         public ActionResult Create()
         {
-            ProductViewModel productViewModel = new ProductViewModel();
+            ProductCreateViewModel productViewModel = new ProductCreateViewModel();
             return View(productViewModel);
         }
 
         // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ProductViewModel productViewModel, IFormFile image)
+        public ActionResult Create(ProductCreateViewModel productViewModel)
         {
             try
             {
-                if (image != null)
+                IProduct product = new Product
                 {
-                    productViewModel.ImagePath = _storage.StoreFile(image);
+                    Name = productViewModel.Name,
+                    Description = productViewModel.Description,
+                    Price = productViewModel.Price,
+                };
+
+                if (productViewModel.Image != null)
+                {
+                    product.ImagePath = _storage.StoreFile(productViewModel.Image);
                 }
-                _productRepository.AddProduct(productViewModel);
+                _productCollection.AddProduct(product);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -71,33 +88,46 @@ namespace WebShop.Controllers
         // GET: Product/Edit/5
         public ActionResult Edit(int id)
         {
-            ProductViewModel productViewModel = _productRepository.GetProductById(id);
+            IProduct product = _productCollection.GetProductById(id);
+            ProductEditViewModel productEditViewModel = new ProductEditViewModel()
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+            };
 
-            return View(productViewModel);
+            return View(productEditViewModel);
         }
 
         // POST: Product/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, ProductViewModel productViewModel, IFormFile image)
+        public ActionResult Edit(int id, ProductEditViewModel productViewModel)
         {
             try
             {
-                var oldProduct = _productRepository.GetProductById(id);
-
-                if (image != null)
+                IProduct product = new Product
                 {
-                    if (productViewModel.ImagePath != null)
+                    ProductID = id,
+                    Name = productViewModel.Name,
+                    Description = productViewModel.Description,
+                    Price = productViewModel.Price,
+                };
+
+                var oldProduct = _productCollection.GetProductById(id);
+
+                if (productViewModel.Image != null)
+                {
+                    if (oldProduct.ImagePath != null)
                     {
                         _storage.RemoveFile(oldProduct.ImagePath);
                     }
-                    productViewModel.ImagePath = _storage.StoreFile(image);
+                    product.ImagePath = _storage.StoreFile(productViewModel.Image);
                 } else
                 {
-                    productViewModel.ImagePath = oldProduct.ImagePath;
+                    product.ImagePath = oldProduct.ImagePath;
                 }
-                productViewModel.ProductID = id;
-                _productRepository.UpdateProduct(productViewModel);
+                _productCollection.UpdateProduct(product);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -110,8 +140,16 @@ namespace WebShop.Controllers
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
-            ProductViewModel productViewModel = _productRepository.GetProductById(id);
-            return View(productViewModel);
+            IProduct product = _productCollection.GetProductById(id);
+            ProductDeleteViewModel productDeleteViewModel = new ProductDeleteViewModel()
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                ImagePath = product.ImagePath,
+            };
+
+            return View(productDeleteViewModel);
         }
 
         // POST: Product/Delete/5
@@ -121,10 +159,13 @@ namespace WebShop.Controllers
         {
             try
             {
-                var oldProduct = _productRepository.GetProductById(id);
-                _storage.RemoveFile(oldProduct.ImagePath);
+                var oldProduct = _productCollection.GetProductById(id);
+                if (oldProduct.ImagePath != null)
+                {
+                    _storage.RemoveFile(oldProduct.ImagePath);
+                }
 
-                _productRepository.DeleteProduct(id);
+                _productCollection.DeleteProduct(id);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -136,18 +177,18 @@ namespace WebShop.Controllers
 
         public ActionResult Search(string productName)
         {
-            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
-
-            if (!String.IsNullOrEmpty(productName))
+            if (string.IsNullOrWhiteSpace(productName))
             {
-                productViewModels = _productRepository.SearchProduct(productName);
-            }
-            else
-            {
-                return View();
+                View();
             }
 
-            return View(productViewModels);
+            List<IProduct> products = _productCollection.SearchProduct(productName);
+            ProductSearchViewModel productSearchViewModel = new ProductSearchViewModel
+            {
+                Products = products
+            };
+
+            return View(productSearchViewModel);
         }
     }
 }

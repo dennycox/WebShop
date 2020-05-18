@@ -3,9 +3,10 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataInterfaces.Data;
 using Microsoft.Extensions.Configuration;
 
-namespace WebShop.Context
+namespace Data.Data
 {
     public class WebShopContext : IWebShopContext
     {

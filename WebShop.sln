@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicInterfaces", "LogicInt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{C7EBC835-1594-498C-8F67-21A62C51BE53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicFactory", "LogicFactory\LogicFactory.csproj", "{1245CDFB-AC8E-4872-8010-A31D67B096BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataInterfaces", "DataInterfaces\DataInterfaces.csproj", "{7253B993-4C09-4086-B2E2-5BF9FFB73440}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{C7EBC835-1594-498C-8F67-21A62C51BE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7EBC835-1594-498C-8F67-21A62C51BE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7EBC835-1594-498C-8F67-21A62C51BE53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1245CDFB-AC8E-4872-8010-A31D67B096BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1245CDFB-AC8E-4872-8010-A31D67B096BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1245CDFB-AC8E-4872-8010-A31D67B096BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1245CDFB-AC8E-4872-8010-A31D67B096BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7253B993-4C09-4086-B2E2-5BF9FFB73440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7253B993-4C09-4086-B2E2-5BF9FFB73440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7253B993-4C09-4086-B2E2-5BF9FFB73440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7253B993-4C09-4086-B2E2-5BF9FFB73440}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
