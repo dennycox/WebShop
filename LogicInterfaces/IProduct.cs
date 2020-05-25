@@ -15,5 +15,7 @@ namespace LogicInterfaces
         decimal Price { get; set; }
 
         string ImagePath { get; set; }
+
+        int CategoryId { get; set; }
     }
 }

@@ -12,5 +12,7 @@ namespace WebShop.ViewModels.Product
     public class ProductSearchViewModel
     {
         public List<IProduct> Products { get; set; }
+
+        public List<ICategory> Categories { get; set; }
     }
 }

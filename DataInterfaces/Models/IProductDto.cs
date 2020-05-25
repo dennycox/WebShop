@@ -15,5 +15,7 @@ namespace DataInterfaces.Models
         decimal Price { get; set; }
 
         string ImagePath { get; set; }
+
+        int CategoryID { get; set; }
     }
 }

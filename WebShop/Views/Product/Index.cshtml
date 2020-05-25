@@ -24,6 +24,9 @@
             <th>
                 Foto
             </th>
+            <th>
+                Categorie
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -40,9 +43,13 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @if (item.ImagePath != null) {
+                @if (item.ImagePath != null)
+                {
                     <img class="rounded img-fluid" style="width: 200px" src="~/storage/@item.ImagePath" alt="@item.ImagePath.ToString()">
                 }
+            </td>
+            <td>
+                @Model.Categories.Where(x => x.CategoryId == item.CategoryId).FirstOrDefault().CategoryName
             </td>
             <td>
                 @Html.ActionLink("Wijzig", "Edit", new { id = item.ProductID }) |

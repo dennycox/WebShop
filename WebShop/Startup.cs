@@ -34,6 +34,8 @@ namespace WebShop
             services.AddScoped<IWebShopContext, WebShopContext>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductCollection, ProductCollection>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryCollection, CategoryCollection>();
             services.AddScoped<IStorage, Storage>();
         }
 

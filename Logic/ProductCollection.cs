@@ -57,7 +57,8 @@ namespace Logic
                 Name = productDto.Name,
                 Description = productDto.Description,
                 Price = productDto.Price,
-                ImagePath = productDto.ImagePath
+                ImagePath = productDto.ImagePath,
+                CategoryId = productDto.CategoryID,
             };
         }
 
@@ -69,7 +70,8 @@ namespace Logic
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                ImagePath = product.ImagePath
+                ImagePath = product.ImagePath,
+                CategoryID = product.CategoryId,
             };
         }
     }

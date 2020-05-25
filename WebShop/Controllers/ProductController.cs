@@ -18,11 +18,13 @@ namespace WebShop.Controllers
     public class ProductController : Controller
     {
         private readonly IProductCollection _productCollection;
+        private readonly ICategoryCollection _categoryCollection;
         private readonly IStorage _storage;
 
-        public ProductController(IProductCollection productCollection, IStorage storage)
+        public ProductController(IProductCollection productCollection, ICategoryCollection categoryCollection, IStorage storage)
         {
             this._productCollection = productCollection;
+            this._categoryCollection = categoryCollection;
             this._storage = storage;
         }
 
@@ -30,9 +32,11 @@ namespace WebShop.Controllers
         public ActionResult Index()
         {
             List<IProduct> products = _productCollection.GetAllProducts();
+            List<ICategory> categories = _categoryCollection.GetAllCategories();
             ProductIndexViewModel productIndexViewModel = new ProductIndexViewModel
             {
-                Products = products
+                Products = products,
+                Categories = categories
             };
 
             return View(productIndexViewModel);
@@ -42,9 +46,11 @@ namespace WebShop.Controllers
         public ActionResult Details(int id)
         {
             IProduct product = _productCollection.GetProductById(id);
+            List<ICategory> categories = _categoryCollection.GetAllCategories();
             ProductDetailsViewModel productViewModel = new ProductDetailsViewModel()
             {
-                Product = product
+                Product = product,
+                Categories = categories
             };
 
             return View(productViewModel);

@@ -30,7 +30,7 @@ namespace Data.Repositories
             {
                 conn.Open();
 
-                string sql = "SELECT id, name, description, price, image_path FROM product;";
+                string sql = "SELECT id, name, description, price, image_path, category_id FROM product;";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -44,6 +44,7 @@ namespace Data.Repositories
                             Description = rdr.GetString(2),
                             Price = rdr.GetDecimal(3),
                             ImagePath = !rdr.IsDBNull(4) ? rdr.GetString(4) : null,
+                            CategoryID = rdr.GetInt32(5),
                         }
                     );
                 }
@@ -68,7 +69,7 @@ namespace Data.Repositories
             {
                 conn.Open();
 
-                string sql = "SELECT id, name, description, price, image_path FROM product WHERE id = @id;";
+                string sql = "SELECT id, name, description, price, image_path, category_id FROM product WHERE id = @id;";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@id", id);
                 SqlDataReader rdr = cmd.ExecuteReader();
@@ -82,6 +83,7 @@ namespace Data.Repositories
                         Description = rdr.GetString(2),
                         Price = rdr.GetDecimal(3),
                         ImagePath = !rdr.IsDBNull(4) ? rdr.GetString(4) : null,
+                        CategoryID = rdr.GetInt32(5),
                     };
                 }
                 rdr.Close();
@@ -103,13 +105,14 @@ namespace Data.Repositories
             {
                 conn.Open();
 
-                string sql = "INSERT INTO product (name, description, price, image_path)" +
-                    "VALUES(@name, @description, @price, @imagePath);";
+                string sql = "INSERT INTO product (name, description, price, image_path, category_id)" +
+                    "VALUES(@name, @description, @price, @imagePath, @categoryId);";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@name", productDto.Name);
                 cmd.Parameters.AddWithValue("@description", productDto.Description);
                 cmd.Parameters.AddWithValue("@price", productDto.Price);
                 cmd.Parameters.AddWithValue("@imagePath", productDto.ImagePath ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@categoryId", productDto.CategoryID);
 
                 cmd.ExecuteNonQuery();
             }
@@ -129,13 +132,14 @@ namespace Data.Repositories
                 conn.Open();
 
                 string sql = "UPDATE product SET name = @name, description = @description, " +
-                    "price = @price, image_path = @imagePath WHERE id = @productID;";
+                    "price = @price, image_path = @imagePath, category_id = @categoryId WHERE id = @productId;";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@name", productDto.Name);
                 cmd.Parameters.AddWithValue("@description", productDto.Description);
                 cmd.Parameters.AddWithValue("@price", productDto.Price);
                 cmd.Parameters.AddWithValue("@imagePath", productDto.ImagePath ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@productID", productDto.ProductID);
+                cmd.Parameters.AddWithValue("@productId", productDto.ProductID);
+                cmd.Parameters.AddWithValue("@categoryId", productDto.CategoryID);
 
                 cmd.ExecuteNonQuery();
             }
@@ -177,7 +181,8 @@ namespace Data.Repositories
             {
                 conn.Open();
 
-                string sql = "SELECT id, name, description, price, image_path FROM product WHERE name LIKE '%' + @name + '%' OR description LIKE '%' + @description + '%';";
+                string sql = "SELECT id, name, description, price, image_path, category_id FROM product " + 
+                    "WHERE name LIKE '%' + @name + '%' OR description LIKE '%' + @description + '%';";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@name", searchName);
                 cmd.Parameters.AddWithValue("@description", searchName);
@@ -193,6 +198,7 @@ namespace Data.Repositories
                             Description = rdr.GetString(2),
                             Price = rdr.GetDecimal(3),
                             ImagePath = !rdr.IsDBNull(4) ? rdr.GetString(4) : null,
+                            CategoryID = rdr.GetInt32(5),
                         }
                     );
                 }

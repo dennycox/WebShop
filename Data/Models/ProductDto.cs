@@ -19,5 +19,7 @@ namespace Data.Models
         public decimal Price { get; set; }
 
         public string ImagePath { get; set; }
+
+        public int CategoryID { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace Logic
@@ -18,5 +19,7 @@ namespace Logic
         public decimal Price { get; set; }
 
         public string ImagePath { get; set; }
+
+        public int CategoryId { get; set; }
     }
 }

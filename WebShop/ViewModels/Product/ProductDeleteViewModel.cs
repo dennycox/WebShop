@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LogicInterfaces;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,5 +23,10 @@ namespace WebShop.ViewModels.Product
         public decimal Price { get; set; }
 
         public string ImagePath { get; set; }
+
+        [DisplayName("Categorie")]
+        public int CategoryID { get; set; }
+
+        public List<ICategory> Categories { get; set; }
     }
 }
