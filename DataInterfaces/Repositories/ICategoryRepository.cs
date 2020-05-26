@@ -8,5 +8,6 @@ namespace DataInterfaces.Repositories
     public interface ICategoryRepository
     {
         List<ICategoryDto> GetAllCategories();
+        ICategoryDto GetCategoryById(int id);
     }
 }

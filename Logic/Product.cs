@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Logic
 {
@@ -21,5 +22,20 @@ namespace Logic
         public string ImagePath { get; set; }
 
         public int CategoryId { get; set; }
+
+        private ICategory _category;
+
+        public ICategory Category
+        {
+            get
+            {
+                return _category;
+            }
+            set
+            {
+                _category = value;
+                CategoryId = _category.CategoryId;
+            }
+        }
     }
 }

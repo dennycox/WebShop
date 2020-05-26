@@ -49,7 +49,7 @@
                 }
             </td>
             <td>
-                @Model.Categories.Where(x => x.CategoryId == item.CategoryId).FirstOrDefault().CategoryName
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
             </td>
             <td>
                 @Html.ActionLink("Wijzig", "Edit", new { id = item.ProductID }) |

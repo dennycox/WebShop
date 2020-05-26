@@ -7,5 +7,7 @@ namespace LogicInterfaces
     public interface ICategoryCollection
     {
         List<ICategory> GetAllCategories();
+
+        ICategory GetCategoryById(int id);
     }
 }

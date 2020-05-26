@@ -32,11 +32,10 @@ namespace WebShop.Controllers
         public ActionResult Index()
         {
             List<IProduct> products = _productCollection.GetAllProducts();
-            List<ICategory> categories = _categoryCollection.GetAllCategories();
+            products.ForEach(p => p.Category = _categoryCollection.GetCategoryById(p.CategoryId));
             ProductIndexViewModel productIndexViewModel = new ProductIndexViewModel
             {
                 Products = products,
-                Categories = categories
             };
 
             return View(productIndexViewModel);
@@ -46,11 +45,10 @@ namespace WebShop.Controllers
         public ActionResult Details(int id)
         {
             IProduct product = _productCollection.GetProductById(id);
-            List<ICategory> categories = _categoryCollection.GetAllCategories();
+            product.Category = _categoryCollection.GetCategoryById(product.CategoryId);
             ProductDetailsViewModel productViewModel = new ProductDetailsViewModel()
             {
                 Product = product,
-                Categories = categories
             };
 
             return View(productViewModel);
@@ -59,7 +57,10 @@ namespace WebShop.Controllers
         // GET: Product/Create
         public ActionResult Create()
         {
-            ProductCreateViewModel productViewModel = new ProductCreateViewModel();
+            ProductCreateViewModel productViewModel = new ProductCreateViewModel()
+            {
+                Categories = _categoryCollection.GetAllCategories(),
+            };
             return View(productViewModel);
         }
 
@@ -75,6 +76,7 @@ namespace WebShop.Controllers
                     Name = productViewModel.Name,
                     Description = productViewModel.Description,
                     Price = productViewModel.Price,
+                    CategoryId = productViewModel.CategoryID,
                 };
 
                 if (productViewModel.Image != null)
@@ -100,6 +102,8 @@ namespace WebShop.Controllers
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
+                CategoryID = product.CategoryId,
+                Categories = _categoryCollection.GetAllCategories(),
             };
 
             return View(productEditViewModel);
@@ -118,6 +122,7 @@ namespace WebShop.Controllers
                     Name = productViewModel.Name,
                     Description = productViewModel.Description,
                     Price = productViewModel.Price,
+                    CategoryId = productViewModel.CategoryID,
                 };
 
                 var oldProduct = _productCollection.GetProductById(id);
@@ -147,12 +152,14 @@ namespace WebShop.Controllers
         public ActionResult Delete(int id)
         {
             IProduct product = _productCollection.GetProductById(id);
+            product.Category = _categoryCollection.GetCategoryById(product.CategoryId);
             ProductDeleteViewModel productDeleteViewModel = new ProductDeleteViewModel()
             {
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
                 ImagePath = product.ImagePath,
+                CategoryName = product.Category.CategoryName,
             };
 
             return View(productDeleteViewModel);
@@ -189,6 +196,7 @@ namespace WebShop.Controllers
             }
 
             List<IProduct> products = _productCollection.SearchProduct(productName);
+            products.ForEach(p => p.Category = _categoryCollection.GetCategoryById(p.CategoryId));
             ProductSearchViewModel productSearchViewModel = new ProductSearchViewModel
             {
                 Products = products

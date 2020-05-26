@@ -17,5 +17,7 @@ namespace LogicInterfaces
         string ImagePath { get; set; }
 
         int CategoryId { get; set; }
+
+        ICategory Category { get; set; }
     }
 }

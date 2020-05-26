@@ -1,4 +1,5 @@
-﻿using LogicInterfaces;
+﻿using Logic;
+using LogicInterfaces;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,6 @@ namespace WebShop.ViewModels.Product
         public string ImagePath { get; set; }
 
         [DisplayName("Categorie")]
-        public int CategoryID { get; set; }
-
-        public List<ICategory> Categories { get; set; }
+        public string CategoryName { get; set; }
     }
 }

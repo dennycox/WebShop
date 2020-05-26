@@ -27,10 +27,10 @@ namespace WebShop.ViewModels.Product
 
         public IFormFile Image { get; set; }
 
+        public List<ICategory> Categories { get; set; }
+
         [DisplayName("Categorie")]
         [Required(ErrorMessage = "Een categorie selecteren is verplicht")]
         public int CategoryID { get; set; }
-
-        public List<ICategory> Categories { get; set; }
     }
 }

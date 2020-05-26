@@ -22,6 +22,11 @@ namespace Logic
             return _categoryRepository.GetAllCategories().Select(c => CategoryDtoToCategory(c)).ToList();
         }
 
+        public ICategory GetCategoryById(int id)
+        {
+            return CategoryDtoToCategory(_categoryRepository.GetCategoryById(id));
+        }
+
         private ICategory CategoryDtoToCategory(ICategoryDto categoryDto)
         {
             return new Category()

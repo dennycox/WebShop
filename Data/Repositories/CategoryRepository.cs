@@ -52,5 +52,39 @@ namespace Data.Repositories
 
             return categories;
         }
+
+        public ICategoryDto GetCategoryById(int id)
+        {
+            SqlConnection conn = webShopContext.GetConnection();
+
+            ICategoryDto category = null;
+            try
+            {
+                conn.Open();
+
+                string sql = "SELECT category_id, category_name FROM category WHERE category_id = @id;";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@id", id);
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    category = new CategoryDto()
+                    {
+                        CategoryId = rdr.GetInt32(0),
+                        CategoryName = rdr.GetString(1),
+                    };
+                }
+                rdr.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            conn.Close();
+
+            return category;
+        }
     }
 }
