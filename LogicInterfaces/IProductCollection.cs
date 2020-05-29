@@ -17,5 +17,7 @@ namespace LogicInterfaces
         void DeleteProduct(int id);
 
         List<IProduct> SearchProduct(string productName);
+
+        List<IProduct> GetProductsByCategoryID(int categoryID);
     }
 }

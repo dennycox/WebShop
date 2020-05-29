@@ -26,6 +26,20 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">Alle Producten</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Categorieën
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                <form asp-area="" asp-controller="Product" asp-action="Index" method="get">
+                                    <input type="hidden" name="categoryId" value="@category.CategoryId" />
+                                    <button class="dropdown-item" type="submit">@category.CategoryName</button>
+                                </form>
+                                }
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -15,5 +15,6 @@ namespace DataInterfaces.Repositories
         void UpdateProduct(IProductDto product);
         void DeleteProduct(int id);
         List<IProductDto> SearchProduct(string productName);
+        List<IProductDto> GetProductsByCategoryID(int categoryID);
     }
 }

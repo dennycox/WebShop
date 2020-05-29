@@ -15,13 +15,13 @@ using WebShop.ViewModels.Product;
 
 namespace WebShop.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductCollection _productCollection;
         private readonly ICategoryCollection _categoryCollection;
         private readonly IStorage _storage;
 
-        public ProductController(IProductCollection productCollection, ICategoryCollection categoryCollection, IStorage storage)
+        public ProductController(IProductCollection productCollection, ICategoryCollection categoryCollection, IStorage storage) : base(categoryCollection)
         {
             this._productCollection = productCollection;
             this._categoryCollection = categoryCollection;
@@ -29,9 +29,19 @@ namespace WebShop.Controllers
         }
 
         // GET: Product
-        public ActionResult Index()
+        public ActionResult Index(int categoryId = 0)
         {
-            List<IProduct> products = _productCollection.GetAllProducts();
+            List<IProduct> products = null;
+
+            if (categoryId > 0)
+            {
+                products = _productCollection.GetProductsByCategoryID(categoryId);
+            }
+            else
+            {
+                products = _productCollection.GetAllProducts();
+            }
+
             products.ForEach(p => p.Category = _categoryCollection.GetCategoryById(p.CategoryId));
             ProductIndexViewModel productIndexViewModel = new ProductIndexViewModel
             {

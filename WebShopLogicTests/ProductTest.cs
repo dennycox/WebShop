@@ -9,10 +9,13 @@ namespace WebShopLogicTests
         public void TestMethod1()
         {
             //Arrange
+            //TODO: Arrange TestMethod
 
             //Act
+            //TODO: Act TestMethod
 
             //Assert
+            //TODO: Assert TestMethod
         }
     }
 }

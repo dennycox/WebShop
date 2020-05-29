@@ -49,6 +49,11 @@ namespace Logic
             return _productRepository.SearchProduct(productName).Select(p => ProductDtoToProduct(p)).ToList();
         }
 
+        public List<IProduct> GetProductsByCategoryID(int categoryID)
+        {
+            return _productRepository.GetProductsByCategoryID(categoryID).Select(p => ProductDtoToProduct(p)).ToList();
+        }
+
         private IProduct ProductDtoToProduct(IProductDto productDto)
         {
             return new Product()

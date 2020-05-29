@@ -213,5 +213,45 @@ namespace Data.Repositories
 
             return productViewModels;
         }
+
+        public List<IProductDto> GetProductsByCategoryID(int categoryID)
+        {
+            SqlConnection conn = webShopContext.GetConnection();
+            List<IProductDto> products = new List<IProductDto>();
+
+            try
+            {
+                conn.Open();
+
+                string sql = "SELECT id, name, description, price, image_path, category_id FROM product WHERE category_id = @category_id;";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@category_id", categoryID);
+                SqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    products.Add(
+                        new ProductDto()
+                        {
+                            ProductID = rdr.GetInt32(0),
+                            Name = rdr.GetString(1),
+                            Description = rdr.GetString(2),
+                            Price = rdr.GetDecimal(3),
+                            ImagePath = !rdr.IsDBNull(4) ? rdr.GetString(4) : null,
+                            CategoryID = rdr.GetInt32(5),
+                        }
+                    );
+                }
+                rdr.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            conn.Close();
+
+            return products;
+        }
     }
 }
