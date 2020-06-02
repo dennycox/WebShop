@@ -24,8 +24,6 @@ namespace DataInterfaces.Models
 
         string Password { get; set; }
 
-        string ConfirmPassword { get; set; }
-
         int ProfileTypeID { get; set; }
     }
 }
