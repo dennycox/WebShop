@@ -1,4 +1,4 @@
-﻿using Data.Models;
+﻿using DataFactory;
 using DataInterfaces;
 using DataInterfaces.Models;
 using DataInterfaces.Repositories;
@@ -69,15 +69,16 @@ namespace Logic
 
         private IProductDto ProductToProductDto(IProduct product)
         {
-            return new ProductDto()
-            {
-                ProductID = product.ProductID,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                ImagePath = product.ImagePath,
-                CategoryID = product.CategoryId,
-            };
+            IProductDto productDto = Factory.GetProductDto();
+
+            productDto.ProductID = product.ProductID;
+            productDto.Name = product.Name;
+            productDto.Description = product.Description;
+            productDto.Price = product.Price;
+            productDto.ImagePath = product.ImagePath;
+            productDto.CategoryID = product.CategoryId;
+
+            return productDto;
         }
     }
 }
