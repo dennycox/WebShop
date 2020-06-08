@@ -17,4 +17,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\LogicInterfaces\LogicInterfaces.csproj" />
+    <ProjectReference Include="..\Logic\Logic.csproj" />
+  </ItemGroup>
+
 </Project>
