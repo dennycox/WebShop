@@ -17,7 +17,25 @@ namespace Logic
 
         public string Description { get; set; }
 
-        public decimal Price { get; set; }
+        private decimal _price { get; set; }
+
+        public decimal Price
+        {
+            get
+            {
+                return _price;
+            }
+            set
+            {
+                if (value >= 0)
+                {
+                    _price = value;
+                } else
+                {
+                    _price = 0;
+                }
+            }
+        }
 
         public string ImagePath { get; set; }
 
