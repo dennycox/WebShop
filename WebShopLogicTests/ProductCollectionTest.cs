@@ -53,5 +53,18 @@ namespace WebShopLogicTests
             Assert.AreEqual(productImagePath, product.ImagePath);
             Assert.AreEqual(productCategoryId, product.CategoryId);
         }
+
+        [TestMethod]
+        public void GetProductById_ProductDoesNotExist_ReturnNull()
+        {
+            //Arrange
+            _productRepoMock.Setup(x => x.GetProductById(0)).Returns(() => null);
+
+            //Act
+            var product = _sut.GetProductById(0);
+
+            //Assert
+            Assert.IsNull(product);
+        }
     }
 }

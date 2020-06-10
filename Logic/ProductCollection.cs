@@ -26,6 +26,13 @@ namespace Logic
 
         public IProduct GetProductById(int id)
         {
+            var product = _productRepository.GetProductById(id);
+
+            if(product == null)
+            {
+                return null;
+            }
+
             return ProductDtoToProduct(_productRepository.GetProductById(id));
         }
 
