@@ -30,7 +30,8 @@ namespace Logic
                 if (value >= 0)
                 {
                     _price = value;
-                } else
+                }
+                else
                 {
                     _price = 0;
                 }

@@ -41,6 +41,25 @@ namespace Logic
             }
         }
 
-        public int Amount { get; set; }
+        private int _amount { get; set; }
+
+        public int Amount
+        {
+            get
+            {
+                return _amount;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    _amount = value;
+                }
+                else
+                {
+                    _amount = 1;
+                }
+            }
+        }
     }
 }
