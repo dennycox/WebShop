@@ -26,5 +26,20 @@ namespace Logic
         public string Password { get; set; }
 
         public int ProfileTypeID { get; set; }
+
+        private IProfileType _profileType;
+
+        public IProfileType ProfileType
+        {
+            get
+            {
+                return _profileType;
+            }
+            set
+            {
+                _profileType = value;
+                ProfileTypeID = _profileType.ProfileTypeID;
+            }
+        }
     }
 }

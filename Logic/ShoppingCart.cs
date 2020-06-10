@@ -9,7 +9,37 @@ namespace Logic
     {
         public int ProductID { get; set; }
 
+        private IProduct _product;
+
+        public IProduct Product
+        {
+            get
+            {
+                return _product;
+            }
+            set
+            {
+                _product = value;
+                ProductID = _product.ProductID;
+            }
+        }
+
         public int ProfileID { get; set; }
+
+        private IProfile _profile;
+
+        public IProfile Profile
+        {
+            get
+            {
+                return _profile;
+            }
+            set
+            {
+                _profile = value;
+                ProfileID = _profile.ID;
+            }
+        }
 
         public int Amount { get; set; }
     }
