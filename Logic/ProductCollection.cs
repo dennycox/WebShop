@@ -5,6 +5,7 @@ using DataInterfaces.Repositories;
 using LogicInterfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 
@@ -53,6 +54,11 @@ namespace Logic
 
         public List<IProduct> SearchProduct(string productName)
         {
+            if(productName == null)
+            {
+                return GetAllProducts();
+            }
+
             return _productRepository.SearchProduct(productName).Select(p => ProductDtoToProduct(p)).ToList();
         }
 

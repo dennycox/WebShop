@@ -31,7 +31,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Products) {
+        @foreach (var item in Model.Products)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -57,6 +58,6 @@
                 @Html.ActionLink("Verwijder", "Delete", new { id = item.ProductID })
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
